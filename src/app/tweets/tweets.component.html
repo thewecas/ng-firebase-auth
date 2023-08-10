@@ -1,0 +1,53 @@
+<div class="container-sm mt-5 mx-auto row gap-1">
+  <form #form="ngForm" (ngSubmit)="createPost({title,content})">
+    <label for="formControlInput" class="form-label fw-bold fs-5">Title</label>
+    <input
+      type="text"
+      class="form-control form-control-lg"
+      [(ngModel)]="title"
+      name="title"
+    />
+    <label for="formControlInput" class="form-label fw-bold fs-5"
+      >Content</label
+    >
+    <input
+      type="text"
+      class="form-control form-control-lg"
+      [(ngModel)]="content"
+      name="content"
+    />
+    <button type="submit" class="btn btn-primary w-auto mt-3">Submit</button>
+  </form>
+</div>
+
+<hr />
+
+<div class="container-sm mx-auto">
+  <div class="btn-container d-flex gap-2 px-2">
+    <button class="btn btn-primary" (click)="fetchPost()">Fetch Post</button>
+    <button class="btn btn-danger" (click)="clearPost()">Clear Post</button>
+  </div>
+  <div class="posts mt-3">
+    <h3 *ngIf="isFetching" class="text-center">Fetching Posts....</h3>
+    <h3
+      class="placeholder text-center text-gray"
+      *ngIf="posts.length < 1 && !isFetching && !error"
+    >
+      No post to display
+    </h3>
+    <ul class="list-group" *ngIf="posts.length > 0 && !isFetching">
+      <li
+        class="list-group-item border rounded my-1"
+        *ngFor="let post of posts"
+      >
+        <h4>{{ post.title }}</h4>
+        <p>{{ post.content }}</p>
+      </li>
+    </ul>
+    <div class="alert alert-danger" *ngIf="error">
+      <h3>An Error Occurred</h3>
+      <p>{{ error }}</p>
+      <button class="btn btn-danger" (click)="handleError()">Ok</button>
+    </div>
+  </div>
+</div>
