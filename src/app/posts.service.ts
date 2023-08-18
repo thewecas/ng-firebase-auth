@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 import { Post } from './post.model';
 
 @Injectable({ providedIn: 'root' })
@@ -9,8 +10,9 @@ import { Post } from './post.model';
 export class PostService {
 
   error = new Subject<string>();
-
-  constructor(private http: HttpClient) { }
+  token: string = null;
+  constructor(private http: HttpClient, private authService: AuthService) {
+  }
 
   createAndStorePost(postData: Post) {
     this.http
@@ -27,7 +29,8 @@ export class PostService {
 
   fetchPost() {
     return this.http
-      .get<{ [key: string]: Post; }>('https://ng-http-30d0b-default-rtdb.firebaseio.com/posts.json')
+      .get<{ [key: string]: Post; }>('https://ng-http-30d0b-default-rtdb.firebaseio.com/posts.json', {
+      })
       .pipe(
         catchError(errorRes => throwError(() => errorRes)),
         map(responseData => {
@@ -37,7 +40,6 @@ export class PostService {
           return postsArray;
         }));
   }
-
 
   clearPost() {
     return this.http

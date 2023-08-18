@@ -1,4 +1,4 @@
-<div class="container-sm mt-5 mx-auto row gap-1">
+<div class="container-sm mt-5 mx-auto row gap-1" *ngIf="isAuthenticated">
   <form #form="ngForm" (ngSubmit)="createPost({title,content})">
     <label for="formControlInput" class="form-label fw-bold fs-5">Title</label>
     <input
@@ -23,7 +23,7 @@
 <hr />
 
 <div class="container-sm mx-auto">
-  <div class="btn-container d-flex gap-2 px-2">
+  <div class="btn-container d-flex gap-2 px-2" *ngIf="isAuthenticated">
     <button class="btn btn-primary" (click)="fetchPost()">Fetch Post</button>
     <button class="btn btn-danger" (click)="clearPost()">Clear Post</button>
   </div>

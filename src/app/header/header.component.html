@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-lg-0">
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!isAuthenticated">
           <a
             class="nav-link"
             aria-current="page"
@@ -11,17 +11,22 @@
             >Authenticate</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAuthenticated">
           <a class="nav-link" routerLinkActive="active_link" routerLink="/user"
             >User</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAuthenticated">
           <a class="nav-link" routerLinkActive="active_link" routerLink="/admin"
             >Admin</a
           >
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active_link" routerLink="/posts"
+            >Posts</a
+          >
+        </li>
+        <li class="nav-item dropdown" *ngIf="isAuthenticated">
           <a
             class="nav-link dropdown-toggle"
             href="#"
@@ -42,6 +47,15 @@
               <a class="nav-link" routerLink="/user">User</a>
             </li>
           </ul>
+        </li>
+        <li class="nav-item" *ngIf="isAuthenticated">
+          <button
+            class="btn btn-dark"
+            routerLinkActive="active_link"
+            (click)="onLogout()"
+          >
+            Logout
+          </button>
         </li>
       </ul>
     </div>

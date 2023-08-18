@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth.service';
 import { Post } from '../post.model';
 import { PostService } from '../posts.service';
 
@@ -12,16 +13,25 @@ export class TweetsComponent {
   title = '';
   content = '';
   posts = [];
+  isAuthenticated: boolean = false;
+  userSub: Subscription;
   isFetching: boolean = false;
   error: string | null = null;
   errorSubscription: Subscription;
-  constructor(private postService: PostService) {
+  constructor(private postService: PostService, private authService: AuthService) {
 
   }
 
   ngOnInit() {
+    this.userSub = this.authService.user.subscribe({
+      next: (user) => {
+        // this.isAuthenticated = !user ? false : true; 
+        this.isAuthenticated = !!user;
+      }
+    });
     this.fetchPost();
     this.errorSubscription = this.postService.error.subscribe(res => this.error = res);
+
   }
 
 
@@ -69,5 +79,6 @@ export class TweetsComponent {
 
   ngOnDestroy() {
     this.errorSubscription.unsubscribe();
+    this.userSub.unsubscribe();
   }
 }

@@ -1,6 +1,15 @@
 <div class="row container mt-5 mx-auto">
   <div class="col-md-12 col-lg-6 mx-auto">
-    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+    <div class="alert alert-danger pb-0" *ngIf="error">
+      <p>{{ error }}</p>
+    </div>
+    <div
+      *ngIf="isLoading"
+      style="height: 10vh; display: grid; place-content: center"
+    >
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+    <form *ngIf="!isLoading" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
       <div class="form-group">
         <label for="">Email</label>
         <input
@@ -14,7 +23,7 @@
         />
       </div>
       <div class="form-group mt-3">
-        <label for="">password</label>
+        <label for="">Password</label>
         <input
           type="password"
           id="password"
@@ -27,13 +36,17 @@
       </div>
       <div class="mt-3">
         <button
-          class="btn btn-primary me-3"
+          class="btn btn-primary me-3 mb-3"
           type="submit"
           [disabled]="!authForm.valid"
         >
           {{ isLoginMode ? "Login" : "SignUp" }}
         </button>
-        <div class="btn btn-primary" type="button" (click)="onSwitchMode()">
+        <div
+          class="btn btn-primary mb-3"
+          type="button"
+          (click)="onSwitchMode()"
+        >
           Switch to {{ isLoginMode ? "Sign up" : "Login" }}
         </div>
       </div>
